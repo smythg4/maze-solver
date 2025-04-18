@@ -13,7 +13,7 @@ def main():
     # cell1.draw_move(cell2, False)
     # cell2.draw_move(cell3, True)
 
-    maze = Maze(5,5,22,30,25,25, win=win)
+    maze = Maze(5,5,29,39,20,20, win=win)
     maze.solve()
 
     win.wait_for_close()
