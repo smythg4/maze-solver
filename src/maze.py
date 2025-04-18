@@ -81,6 +81,20 @@ class Cell:
         line = Line(Point(self._x1, self._y2), Point(self._x2, self._y2))
         line.draw(self._win.canvas_widget, bottom_color)
 
+    def draw_enter(self):
+        # always assumes left wall is entrance
+        my_center = Point((self._x1 + self._x2)/2, (self._y1 + self._y2)/2)
+        ent_point = Point(0,(self._y1 + self._y2)/2)
+        path_line = Line(my_center, ent_point)
+        path_line.draw(self._win.canvas_widget, "red")
+
+    def draw_exit(self):
+        # always assumes left wall is entrance
+        my_center = Point((self._x1 + self._x2)/2, (self._y1 + self._y2)/2)
+        exit_point = Point((self._x1 + self._x2)/2,self._y2)
+        path_line = Line(my_center, exit_point)
+        path_line.draw(self._win.canvas_widget, "red")
+
     def draw_move(self, to_cell, undo: bool = False):
         if undo:
             line_color = "gray"
@@ -226,6 +240,7 @@ class Maze:
         time.sleep(delay)
 
     def solve(self):
+        self._cells[0][0].draw_enter()
         return self._solve_r(0,0)
     
     def _solve_r(self, row, col):
@@ -239,6 +254,7 @@ class Maze:
         this_cell.visited = True
 
         if this_cell == end_cell:
+            this_cell.draw_exit()
             return True
         
         left, right, up, down = self._find_neighbors(row, col)
